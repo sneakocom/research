@@ -46,7 +46,7 @@ to the sealed record.
 | semantic-edit-protocol | 84275765d6fa6c920d269da15e7dfc8def54d11f | Supporting research, theory stage. HEAD inspected 2026-11-16; no new verify run claimed. |
 | research | 939003ee824e4085653c735b0f2c22a2eb0318f1 | This repository, main HEAD before this addendum. |
 | site | fe20ad76f7ba2d82f0d1f8ea2ba5d9a69dbd1bb3 | Private. Serves opsle.com. |
-| context-budget-preflight | c5f423f (after its CI PR merged 2026-11-16) | Prototype tool. Listed on opsle.com /repositories from 2026-11-16. |
+| context-budget-preflight | c5f423fbfce3e2c69890ee71c3c6c857a19677b2 (main after its CI PR merged 2026-11-16) | Prototype tool. Listed on opsle.com /repositories from 2026-11-16. |
 
 The Core 4 verification is the Monday weekly run: fresh clones, each
 product's documented verify run direct and through the Codex and Muse
