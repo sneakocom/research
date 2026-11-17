@@ -19,7 +19,8 @@ DEFAULT_EXPERIMENTS = ROOT / "program" / "experiments.json"
 DEFAULT_THEORY_REGISTRY = ROOT / "program" / "theory-registry.json"
 DEFAULT_THEORY_MAP = ROOT / "program" / "THEORY_MAP.md"
 
-DEFAULT_INVENTORY = ROOT / "program/evidence/post-consolidation/inventory.json"
+DEFAULT_INVENTORY = ROOT / "program/evidence/post-reorganization/inventory.json"
+EPOCH1_REGISTRY = ROOT / "program/history/epoch-1/registry.json"
 REPOSITORY_DISPOSITIONS = {"ACTIVE", "CONSOLIDATED", "RETIRED"}
 RETIRED_SYSTEMS = ("durable-supervisor", "durable supervisor", "taslos tasks", "paperclip", "agent-run")
 
@@ -98,7 +99,7 @@ RUN_VALUE_FIELDS = frozenset(
     }
 )
 
-OPSLE_TASKS_MEASUREMENTS = frozenset(
+PROGRAM_MEASUREMENTS = frozenset(
     {
         "Gearbox",
         "Context Firewall",
@@ -107,7 +108,7 @@ OPSLE_TASKS_MEASUREMENTS = frozenset(
     }
 )
 
-OPSLE_TASKS_PROHIBITIONS = frozenset(
+PROGRAM_PROHIBITIONS = frozenset(
     {
         "public release",
         "DNS or TLS changes",
@@ -120,7 +121,7 @@ LATER_ITEMS = frozenset(
         "controlled empirical experiments",
         "frozen real-workload benchmark corpus",
         "independent replication",
-        "Opsle Tasks public and self-hosted release",
+        "Opsle public releases of the Core 4 tools",
         "opsle.com research and public site",
         "hosted Opsle offering",
     }
@@ -401,7 +402,7 @@ def validate(
 
     if registry.get("schema_version") != 2:
         errors.append("registry.schema_version must be 2")
-    if registry.get("inventory_evidence") != "program/evidence/post-consolidation/inventory.json":
+    if registry.get("inventory_evidence") != "program/evidence/post-reorganization/inventory.json":
         errors.append("verified inventory path drift")
     if registry.get("inventory_evidence_sha256") != "sha256:" + hashlib.sha256(DEFAULT_INVENTORY.read_bytes()).hexdigest():
         errors.append("verified inventory hash drift")
@@ -416,6 +417,11 @@ def validate(
         errors.append("final consolidation receipt must be complete")
     historical_snapshot = load_json(ROOT / "program/history/pre-consolidation/registry.json")
     historical_repos = {r["name"]: r for r in historical_snapshot["repositories"]}
+    if EPOCH1_REGISTRY.is_file():
+        # Epoch-2 retirements (tasks, .github) take their origin record from
+        # the sealed epoch-1 registry; pre-consolidation origins win.
+        for repo in load_json(EPOCH1_REGISTRY)["repositories"]:
+            historical_repos.setdefault(repo["name"], repo)
     milestones = registry.get("completed_work", [])
     required_milestones = {"taslos-tasks-retirement", "paperclip-retirement", "repository-consolidation", "remote-incus-execution", "task-15-capability-contract"}
     if (not isinstance(milestones, list) or
@@ -601,35 +607,35 @@ def validate(
 
         if "durable_supervisor_v0_1" in control or retired_reference(control):
             errors.append("retired system in current program control")
-        if control.get("workload_authority") != "opsle/tasks":
-            errors.append("Opsle Tasks must be the current workload authority")
+        if control.get("workload_authority") != "sneakocom/research":
+            errors.append("Opsle Research must be the current workload authority")
 
-        opsle_tasks = control.get("opsle_tasks")
-        if not isinstance(opsle_tasks, dict):
-            errors.append("program_control.opsle_tasks must be an object")
+        stewardship = control.get("research_stewardship")
+        if not isinstance(stewardship, dict):
+            errors.append("program_control.research_stewardship must be an object")
         else:
-            if opsle_tasks.get("current_repository") != "opsle/tasks":
-                errors.append("Opsle Tasks current repository identity drifted")
-            if opsle_tasks.get("role") != "current workload and task-management authority":
-                errors.append("Opsle Tasks must be the current workload and task-management authority")
+            if stewardship.get("current_repository") != "sneakocom/research":
+                errors.append("Research stewardship current repository identity drifted")
+            if stewardship.get("role") != "current workload and task-management authority":
+                errors.append("Opsle Research must be the current workload and task-management authority")
             expected_capabilities = {"opsle.gearbox", "opsle.context-firewall", "opsle.affected-verification", "opsle.visible-value"}
-            capability_ids = opsle_tasks.get("capability_ids")
+            capability_ids = stewardship.get("capability_ids")
             if (not _string_list(capability_ids, allow_empty=False)
                 or set(capability_ids) != expected_capabilities
                 or len(capability_ids) != len(expected_capabilities)):
-                errors.append("Tasks capability inventory drift; Graphify is standalone only")
-            measurements = opsle_tasks.get("measurements")
+                errors.append("Stewardship capability inventory drift; Graphify is standalone only")
+            measurements = stewardship.get("measurements")
             if (
                 not _string_list(measurements, allow_empty=False)
-                or set(measurements) != OPSLE_TASKS_MEASUREMENTS
+                or set(measurements) != PROGRAM_MEASUREMENTS
             ):
-                errors.append("Opsle Tasks integrated measurements drifted")
-            prohibitions = opsle_tasks.get("prohibited_without_separate_authorization")
+                errors.append("Program integrated measurements drifted")
+            prohibitions = stewardship.get("prohibited_without_separate_authorization")
             if (
                 not _string_list(prohibitions, allow_empty=False)
-                or set(prohibitions) != OPSLE_TASKS_PROHIBITIONS
+                or set(prohibitions) != PROGRAM_PROHIBITIONS
             ):
-                errors.append("Opsle Tasks prohibitions drifted")
+                errors.append("Program prohibitions drifted")
         for field in ("concept_activation", "later_items", "parked_items"):
             value = control.get(field)
             if not isinstance(value, list) or not value:
@@ -716,7 +722,7 @@ def validate(
             errors.append(f"{label}: invalid completion_status {repo.get('completion_status')!r}")
         if not SHA_RE.fullmatch(str(repo.get("last_verified_head_sha", ""))):
             errors.append(f"{label}: last_verified_head_sha must be 40 lowercase hex characters")
-        if repo.get("github_url") != f"https://github.com/opsle/{repo.get('name')}":
+        if repo.get("github_url") != f"https://github.com/sneakocom/{repo.get('name')}":
             errors.append(f"{label}: GitHub URL does not match repository name")
         if not _valid_timestamp(repo.get("last_verified_at")):
             errors.append(f"{label}: last_verified_at must be an ISO-8601 UTC timestamp")
@@ -784,7 +790,7 @@ def validate(
         destination = repo.get("consolidated_into")
         if destination != inventory["consolidation_destinations"].get(label):
             errors.append(f"{label}: consolidation destination differs from final receipt")
-        if disposition == "CONSOLIDATED" and (not isinstance(destination, str) or destination not in current):
+        if disposition == "CONSOLIDATED" and (not isinstance(destination, str) or destination not in expected):
             errors.append(f"{label}: dangling consolidation destination")
         if disposition != "CONSOLIDATED" and destination is not None:
             errors.append(f"{label}: unexpected consolidation destination")
@@ -1305,8 +1311,11 @@ def validate_theory(
                 current_mappings.append(current_repository)
             if (
                 isinstance(current_repository, str)
-                and current_repository not in current_repositories
+                and current_repository not in expected
             ):
+                # Epoch 2: a consolidated concept's recorded home may itself
+                # be historical (the epoch-1 home, tasks, retired 2026-10-31).
+                # The home must be a recorded repository, current or historical.
                 errors.append(
                     f"theory concept {label}: invalid current repository {current_repository!r}"
                 )
@@ -1435,9 +1444,9 @@ def validate_theory(
             errors.append("registry Gearbox publication status must be RELEASED")
         if publication.get("repository") != "gearbox":
             errors.append("registry Gearbox publication repository must be gearbox")
-        if publication.get("github_url") != "https://github.com/opsle/gearbox":
+        if publication.get("github_url") != "https://github.com/sneakocom/gearbox":
             errors.append("registry Gearbox publication URL is invalid")
-        if publication.get("pull_request") != "https://github.com/opsle/gearbox/pull/1":
+        if publication.get("pull_request") != "https://github.com/sneakocom/gearbox/pull/1":
             errors.append("registry Gearbox publication PR is invalid")
         if publication.get("ci_status") != "SUCCESS":
             errors.append("registry Gearbox publication CI must be successful")

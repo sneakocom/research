@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "epoch": 2,
+  "observed_at": "2026-11-17T18:18:05Z",
+  "source_revision": "0d468199626829339216b840a58cc2b7efa2c2af",
+  "source": "https://github.com/sneakocom/research/blob/0d468199626829339216b840a58cc2b7efa2c2af/program/CURRENT_STATE.md",
+  "decision": "Michael Davis, 2026-11-17: start a new registry epoch, chosen over keeping the epoch-1 registry sealed with addenda. Recorded in program/CURRENT_STATE.md (epoch-2 section).",
+  "active_repositories": [
+    "agent-trajectory-profiler",
+    "semantic-edit-protocol",
+    "context-firewall",
+    "context-budget-preflight",
+    "decision-evidence-protocol",
+    "gearbox",
+    "affected-verification",
+    "research",
+    "site",
+    "visible-value"
+  ],
+  "historical_repositories": [
+    "agent-discovery-control",
+    "agent-execution-authorization",
+    "agent-recovery-policy",
+    "agent-resource-claims",
+    "agent-routing-policy",
+    "agent-scheduler-runtime",
+    "agent-state-ledger",
+    "controlled-agent-acceptance",
+    "ephemeral-agent-workers",
+    "event-driven-agent-wakeup",
+    "verifiable-agent-handoff",
+    "durable-supervisor",
+    ".github",
+    "tasks"
+  ],
+  "heads": {
+    "gearbox": "4cab15c3180d0a95d70a0dab0ecb64aaccdbbf61",
+    "context-firewall": "d614c4accbd832fa5eb0a9be00c872661067dc10",
+    "affected-verification": "0789231384b298747f560bda5c17675960f40f1d",
+    "visible-value": "e5685ac1a307affee8687f223fab51e3466f0e90",
+    "agent-trajectory-profiler": "a18e7233e1c7607ca02a5e7d7a26f1c6b497792e",
+    "decision-evidence-protocol": "6a4dd402387bde2d00e4ecbfd37b5923d8dcbd5a",
+    "semantic-edit-protocol": "84275765d6fa6c920d269da15e7dfc8def54d11f",
+    "research": "0d468199626829339216b840a58cc2b7efa2c2af",
+    "site": "36cbca302c2106f41eadc00a0fe313278786cfcd",
+    "context-budget-preflight": "c5f423fbfce3e2c69890ee71c3c6c857a19677b2"
+  },
+  "historical_heads": {
+    "tasks": "fc89649edcf80c7cb9399c025d481e79c8ce4eaa",
+    ".github": "01c38e726db7c3e45059d25fccce55e071e35938"
+  },
+  "consolidation_destinations": {
+    "agent-discovery-control": "tasks",
+    "agent-execution-authorization": "tasks",
+    "agent-recovery-policy": "tasks",
+    "agent-resource-claims": "tasks",
+    "agent-routing-policy": "gearbox",
+    "agent-scheduler-runtime": "tasks",
+    "agent-state-ledger": "tasks",
+    "controlled-agent-acceptance": "tasks",
+    "ephemeral-agent-workers": "tasks",
+    "event-driven-agent-wakeup": "tasks",
+    "verifiable-agent-handoff": "tasks"
+  },
+  "workload_ineligible": [],
+  "graphify": {
+    "role": "OPTIONAL_STANDALONE_CLI",
+    "tasks_capability": false,
+    "basis": "Task 21 established the optional standalone CLI policy. The four research measurement capabilities remain Gearbox, Context Firewall, Affected Verification and Visible Value; current Tasks also bundles its product-specific Question Recommendation adapter. Graphify is not a Tasks capability."
+  },
+  "observation_scope": "GitHub repository metadata and default-branch HEAD revisions observed 2026-11-17 through the GitHub API. Core 4 HEADs (gearbox, context-firewall, affected-verification, visible-value) are the revisions verified by the 2026-11-16 weekly fresh-clone verify run (12 of 12 cells passing) and are unchanged since that run. Supporting repositories, research, site, and context-budget-preflight are HEAD-inspected only; no new verify run is claimed for them. Historical membership is the epoch-1 consolidation set plus tasks (Opsle Tasks retired 2026-10-31; repository deleted) and .github (deleted with the opsle GitHub organization in October 2026). consolidation_destinations is carried over unchanged: it records the epoch-1 final consolidation receipt and is pinned to that receipt by the validator.",
+  "previous_observation": "program/evidence/post-consolidation/inventory.json"
+}

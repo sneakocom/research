@@ -66,7 +66,7 @@ class ProgramRegistryValidationTests(unittest.TestCase):
         self.assertEqual(affected["lifecycle_stage"], "VERIFIED")
         self.assertEqual(
             affected["last_verified_head_sha"],
-            "a9c7000e088b5db085e2449e04a83948b66916f1",
+            "0789231384b298747f560bda5c17675960f40f1d",
         )
         self.assertEqual(
             affected["active_experiment_ids"],
@@ -155,7 +155,7 @@ class ProgramRegistryValidationTests(unittest.TestCase):
     def test_duplicate_priority_repository_fails(self):
         registry = copy.deepcopy(self.registry)
         registry["program_control"]["lanes"][1]["repositories"].append(
-            "tasks"
+            "gearbox"
         )
         errors = self.errors_for(registry=registry)
         self.assertTrue(

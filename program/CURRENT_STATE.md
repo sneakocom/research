@@ -63,3 +63,28 @@ workload-authority framing now that Tasks is retired. That is a
 program-direction decision, not a data correction, so the autopilot
 has not done it. This addendum is the factual bridge until that
 decision is made.
+
+## Epoch 2 — decision made (2026-11-17)
+
+Michael decided on 2026-11-17: start a new epoch. The regeneration
+this addendum deferred is now the live record:
+
+- New inventory: `program/evidence/post-reorganization/inventory.json`
+  (epoch 2, observed 2026-11-17). The epoch-1 inventory at
+  `program/evidence/post-consolidation/inventory.json` is untouched.
+- The epoch-1 registry is preserved at
+  `program/history/epoch-1/registry.json`.
+- `program/registry.json` now records 24 repositories: 10 current
+  (the seven live program repositories, research, site, and
+  context-budget-preflight) and 14 historical (the epoch-1 set plus
+  tasks and .github). Canonical URLs are `sneakocom`.
+- Workload and task-management authority is the Opsle research
+  program itself (`sneakocom/research`), recorded as
+  `program_control.research_stewardship`. Opsle Tasks is a historical
+  entry, retired 2026-10-31.
+- `tools/validate_program.py` pins the new inventory, the new
+  membership and HEADs, and the new authority, and validates clean:
+  24 repositories, 19 concepts, 5 experiments.
+
+This addendum's bridge role is complete. Current facts live in the
+epoch-2 registry and its generated views.

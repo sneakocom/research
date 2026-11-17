@@ -56,9 +56,10 @@ class PostConsolidationTests(unittest.TestCase):
         self.registry['repository_counts']['historical'] -= 1
         self.reject('historical membership differs')
 
-    def test_github_housekeeping_is_not_workload_eligibility(self):
+    def test_github_is_retired_and_not_workload_eligible(self):
         repo = next(r for r in self.registry['repositories'] if r['name'] == '.github')
-        self.assertEqual(repo['repository_disposition'], 'ACTIVE')
+        self.assertEqual(repo['repository_disposition'], 'RETIRED')
+        self.assertEqual(repo['program_state'], 'historical')
         self.assertFalse(repo['workload_eligible'])
         repo['workload_eligible'] = True
         self.reject('workload eligibility drift')
@@ -68,7 +69,7 @@ class PostConsolidationTests(unittest.TestCase):
         self.reject('Graphify')
 
     def test_graphify_cannot_enter_tasks_capability_inventory(self):
-        self.registry['program_control']['opsle_tasks']['capability_ids'].append('opsle.graphify')
+        self.registry['program_control']['research_stewardship']['capability_ids'].append('opsle.graphify')
         self.reject('Graphify is standalone only')
 
     def test_retirement_cannot_promote_repository_maturity(self):
