@@ -34,13 +34,21 @@ class GearboxPublicationEvidenceTests(unittest.TestCase):
         )
 
     def test_consumer_revisions_and_results_are_exact(self):
+        # The publication evidence records the consumer revisions as they
+        # stood in epoch 1. Epoch 2 moved the live registry HEAD pins, so
+        # exactness is checked against the sealed epoch-1 registry, which
+        # is the record the evidence was produced under.
+        epoch1 = load(ROOT / "program" / "history" / "epoch-1" / "registry.json")
+        epoch1_repositories = {
+            item["name"]: item for item in epoch1["repositories"]
+        }
         self.assertEqual(
             self.decision["validator"]["revision"],
-            self.repositories["decision-evidence-protocol"]["last_verified_head_sha"],
+            epoch1_repositories["decision-evidence-protocol"]["last_verified_head_sha"],
         )
         self.assertEqual(
             self.trajectory["profiler"]["revision"],
-            self.repositories["agent-trajectory-profiler"]["last_verified_head_sha"],
+            epoch1_repositories["agent-trajectory-profiler"]["last_verified_head_sha"],
         )
         self.assertEqual(
             self.decision["result"],

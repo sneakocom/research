@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "program": "Opsle Research",
-  "authoritative_repository_count": 23,
+  "authoritative_repository_count": 24,
   "lifecycle_model": "program/LIFECYCLE.md",
   "experiment_registry": "program/experiments.json",
   "theory_registry": "program/theory-registry.json",
@@ -18,8 +18,8 @@
     "status": "RELEASED",
     "verified_at": "2026-08-29T02:53:08Z",
     "repository": "gearbox",
-    "github_url": "https://github.com/opsle/gearbox",
-    "pull_request": "https://github.com/opsle/gearbox/pull/1",
+    "github_url": "https://github.com/sneakocom/gearbox",
+    "pull_request": "https://github.com/sneakocom/gearbox/pull/1",
     "ci_run": "https://github.com/opsle/gearbox/actions/runs/33229696388",
     "ci_status": "SUCCESS",
     "final_main_sha": "f3fab9f292cf4eabd7200615d444f98881f57d55",
@@ -38,8 +38,8 @@
       "PARKED"
     ],
     "current_lane": "NOW",
-    "operating_question": "How can current Opsle Tasks workloads use less intelligence and context while preserving correctness and defensible evidence?",
-    "exact_next_execution": "Select only authorized, evidence-backed work from Opsle Tasks. Notebook implementation and production integration are complete through PR #83; the pending #52 scope is superseded by that recovery and is not a retry candidate. Existing lane membership is unchanged; see reconciliation evidence in program/registry.json.",
+    "operating_question": "How can the Opsle research program's current work use less intelligence and context while preserving correctness and defensible evidence?",
+    "exact_next_execution": "Maintain the epoch-2 ledger as the living record: keep registry HEADs, generated views, and runner liveness verified each autopilot cycle, and advance EXP-001 only under its existing preregistration and authorization gates. No workload is selected from the retired Tasks system.",
     "work_item_admission": {
       "rule": "Do not create a work item solely because an implementation can be improved.",
       "qualifying_reasons": [
@@ -62,11 +62,10 @@
       {
         "name": "NOW",
         "repositories": [
-          "tasks",
           "research"
         ],
-        "objective": "Maintain current Tasks workload and reconcile demonstrated defects with shipped recovery evidence; Notebook implementation and production integration are complete.",
-        "entry_condition": "An authorized Tasks work item and a qualifying evidence-backed reason are required.",
+        "objective": "Maintain the authoritative program ledger and the epoch-2 registry; reconcile demonstrated defects with shipped evidence.",
+        "entry_condition": "An authorized work item under the program's admission rule and a qualifying evidence-backed reason are required.",
         "exit_condition": "The scoped defect or question is resolved with bounded evidence; release requirements remain separate."
       },
       {
@@ -75,21 +74,21 @@
           "gearbox",
           "context-firewall",
           "visible-value",
-          "affected-verification",
-          "decision-evidence-protocol",
-          "agent-trajectory-profiler"
+          "affected-verification"
         ],
         "objective": "Address demonstrated integration or measurement deficiencies; shipped capability packages alone do not establish current-runtime compatibility or research completion.",
-        "entry_condition": "An authorized Tasks work item and a qualifying evidence-backed reason are required.",
+        "entry_condition": "An authorized work item under the program's admission rule and a qualifying evidence-backed reason are required.",
         "exit_condition": "The scoped defect or question is resolved with bounded evidence; release requirements remain separate."
       },
       {
         "name": "THEN",
         "repositories": [
-          "semantic-edit-protocol"
+          "agent-trajectory-profiler",
+          "decision-evidence-protocol",
+          "context-budget-preflight"
         ],
-        "objective": "Investigate semantic edits only when workload evidence establishes a need.",
-        "entry_condition": "An authorized Tasks work item and a qualifying evidence-backed reason are required.",
+        "objective": "Address demonstrated integration or measurement deficiencies in the supporting research repositories and program tooling.",
+        "entry_condition": "An authorized work item under the program's admission rule and a qualifying evidence-backed reason are required.",
         "exit_condition": "The scoped defect or question is resolved with bounded evidence; release requirements remain separate."
       },
       {
@@ -98,43 +97,19 @@
           "site"
         ],
         "objective": "Prepare controlled research and public material when evidence and separate release authority support it.",
-        "entry_condition": "An authorized Tasks work item and a qualifying evidence-backed reason are required.",
+        "entry_condition": "An authorized work item under the program's admission rule and a qualifying evidence-backed reason are required.",
         "exit_condition": "The scoped defect or question is resolved with bounded evidence; release requirements remain separate."
       },
       {
         "name": "PARKED",
         "repositories": [
-          ".github"
+          "semantic-edit-protocol"
         ],
-        "objective": "Retain organization housekeeping separately from workload eligibility.",
-        "entry_condition": "An authorized Tasks work item and a qualifying evidence-backed reason are required.",
+        "objective": "Theory-stage research; investigate semantic edits only when workload evidence establishes a need.",
+        "entry_condition": "An authorized work item under the program's admission rule and a qualifying evidence-backed reason are required.",
         "exit_condition": "The scoped defect or question is resolved with bounded evidence; release requirements remain separate."
       }
     ],
-    "opsle_tasks": {
-      "current_repository": "opsle/tasks",
-      "role": "current workload and task-management authority",
-      "measurements": [
-        "Gearbox",
-        "Context Firewall",
-        "Visible Value",
-        "Affected Verification"
-      ],
-      "prohibited_without_separate_authorization": [
-        "public release",
-        "DNS or TLS changes",
-        "launch provider work"
-      ],
-      "name": "Opsle Tasks",
-      "capability_contract": "https://github.com/opsle/tasks/blob/fc89649edcf80c7cb9399c025d481e79c8ce4eaa/docs/CAPABILITIES.md",
-      "capability_ids": [
-        "opsle.gearbox",
-        "opsle.context-firewall",
-        "opsle.affected-verification",
-        "opsle.visible-value"
-      ],
-      "capability_scope": "The four listed IDs are the research measurement interfaces, not an exhaustive inventory of product adapters; Tasks also bundles Question Recommendation."
-    },
     "concept_activation": [
       {
         "deficiency": "routing",
@@ -145,7 +120,7 @@
       {
         "deficiency": "durable state",
         "repositories": [
-          "tasks"
+          "research"
         ]
       },
       {
@@ -169,7 +144,7 @@
       {
         "deficiency": "recovery",
         "repositories": [
-          "tasks"
+          "research"
         ]
       }
     ],
@@ -177,14 +152,38 @@
       "controlled empirical experiments",
       "frozen real-workload benchmark corpus",
       "independent replication",
-      "Opsle Tasks public and self-hosted release",
+      "Opsle public releases of the Core 4 tools",
       "opsle.com research and public site",
       "hosted Opsle offering"
     ],
     "parked_items": [
       "Cosmetic cleanup, architectural polishing, hypothetical robustness and speculative requirements without qualifying evidence."
     ],
-    "workload_authority": "opsle/tasks"
+    "workload_authority": "sneakocom/research",
+    "research_stewardship": {
+      "name": "Opsle Research",
+      "current_repository": "sneakocom/research",
+      "role": "current workload and task-management authority",
+      "measurements": [
+        "Gearbox",
+        "Context Firewall",
+        "Visible Value",
+        "Affected Verification"
+      ],
+      "prohibited_without_separate_authorization": [
+        "public release",
+        "DNS or TLS changes",
+        "launch provider work"
+      ],
+      "capability_ids": [
+        "opsle.gearbox",
+        "opsle.context-firewall",
+        "opsle.affected-verification",
+        "opsle.visible-value"
+      ],
+      "capability_scope": "The four listed IDs are the research measurement interfaces stewarded by the research program; Graphify is not among them and remains an optional standalone CLI.",
+      "epoch_note": "Epoch 2 (2026-11-17): workload and task-management authority moved from the retired Opsle Tasks system (retired 2026-10-31, repository deleted) to the Opsle research program itself, stewarded in sneakocom/research."
+    }
   },
   "visible_value": {
     "baseline": "The configured primary model and reasoning effort performs the same task work and receives raw unfiltered evidence.",
@@ -239,13 +238,13 @@
       "avoidable-intelligence estimate"
     ]
   },
-  "last_verified_at": "2026-09-11T04:18:44Z",
+  "last_verified_at": "2026-11-17T18:18:05Z",
   "repositories": [
     {
       "name": "agent-trajectory-profiler",
-      "github_url": "https://github.com/opsle/agent-trajectory-profiler",
+      "github_url": "https://github.com/sneakocom/agent-trajectory-profiler",
       "default_branch": "main",
-      "last_verified_head_sha": "0a89661640721d6a39f127514b993d29bd728d47",
+      "last_verified_head_sha": "a18e7233e1c7607ca02a5e7d7a26f1c6b497792e",
       "project_type": "concept",
       "purpose": "Measure correctness-gated mutation, edit payload, and semantic-region revisits from observable agent trajectories.",
       "lifecycle_stage": "VERIFIED",
@@ -269,7 +268,7 @@
       "blockers": [
         "EXP-001 is prepared but unconsumed; measured subject decision adequacy, broader workload coverage and independent replication remain absent."
       ],
-      "next_task": "Use Opsle Tasks to admit work only for a demonstrated deficiency in this repository.",
+      "next_task": "Admit work only for a demonstrated deficiency in this repository, under the research program's work-item admission rule.",
       "evidence": [
         "https://github.com/opsle/agent-trajectory-profiler/blob/0a89661640721d6a39f127514b993d29bd728d47/README.md",
         "https://github.com/opsle/agent-trajectory-profiler/blob/0a89661640721d6a39f127514b993d29bd728d47/src/value-summary.js",
@@ -291,7 +290,7 @@
       "completion_evidence": [],
       "completion_status": "INCOMPLETE",
       "program_state": "waiting",
-      "last_verified_at": "2026-09-11T04:18:44Z",
+      "last_verified_at": "2026-11-17T18:18:05Z",
       "repository_disposition": "ACTIVE",
       "consolidated_into": null,
       "workload_eligible": true,
@@ -300,9 +299,9 @@
     },
     {
       "name": "semantic-edit-protocol",
-      "github_url": "https://github.com/opsle/semantic-edit-protocol",
+      "github_url": "https://github.com/sneakocom/semantic-edit-protocol",
       "default_branch": "main",
-      "last_verified_head_sha": "29caad5c03827cde17aabd71c38bc25899413a33",
+      "last_verified_head_sha": "84275765d6fa6c920d269da15e7dfc8def54d11f",
       "project_type": "concept",
       "purpose": "Apply bounded semantic edit operations with structural and hash preconditions.",
       "lifecycle_stage": "THEORY",
@@ -324,7 +323,7 @@
       "blockers": [
         "No executable semantic operation, validator, tests, or benchmark fixtures."
       ],
-      "next_task": "Use Opsle Tasks to admit work only for a demonstrated deficiency in this repository.",
+      "next_task": "Admit work only for a demonstrated deficiency in this repository, under the research program's work-item admission rule.",
       "evidence": [
         "https://github.com/opsle/semantic-edit-protocol/blob/29caad5c03827cde17aabd71c38bc25899413a33/README.md",
         "https://github.com/opsle/semantic-edit-protocol/blob/29caad5c03827cde17aabd71c38bc25899413a33/THEORY.md",
@@ -338,7 +337,7 @@
       "completion_evidence": [],
       "completion_status": "INCOMPLETE",
       "program_state": "waiting",
-      "last_verified_at": "2026-09-11T04:18:44Z",
+      "last_verified_at": "2026-11-17T18:18:05Z",
       "repository_disposition": "ACTIVE",
       "consolidated_into": null,
       "workload_eligible": true,
@@ -347,7 +346,7 @@
     },
     {
       "name": "durable-supervisor",
-      "github_url": "https://github.com/opsle/durable-supervisor",
+      "github_url": "https://github.com/sneakocom/durable-supervisor",
       "default_branch": "main",
       "last_verified_head_sha": "a69f3b1ce523912a1f840cea305db008bab8e03f",
       "project_type": "concept",
@@ -397,7 +396,7 @@
     },
     {
       "name": "event-driven-agent-wakeup",
-      "github_url": "https://github.com/opsle/event-driven-agent-wakeup",
+      "github_url": "https://github.com/sneakocom/event-driven-agent-wakeup",
       "default_branch": "main",
       "last_verified_head_sha": "8278bfb064eba50ce05aeaf9c1b7cc54a748c210",
       "project_type": "concept",
@@ -442,9 +441,9 @@
     },
     {
       "name": "context-firewall",
-      "github_url": "https://github.com/opsle/context-firewall",
+      "github_url": "https://github.com/sneakocom/context-firewall",
       "default_branch": "main",
-      "last_verified_head_sha": "0239003eb66af4902f6d53ceb04d32976bce21f7",
+      "last_verified_head_sha": "d614c4accbd832fa5eb0a9be00c872661067dc10",
       "project_type": "concept",
       "purpose": "Reduce operational payload deterministically while preserving provenance and safe raw-evidence escalation.",
       "lifecycle_stage": "PROTOTYPED",
@@ -462,16 +461,14 @@
         "External package compatibility pins Tasks 50f2666b2ddf3b95fc77c7e7bd8d64b6807e91f8. Production Tasks has advanced; package installation, grant state and compatibility with the deployed revision are not established by package tests. Canonical packet/constructed projection measurements do not prove provider delivery."
       ],
       "dependencies": [],
-      "dependents": [
-        "tasks"
-      ],
+      "dependents": [],
       "active_experiment_ids": [
         "EXP-001"
       ],
       "blockers": [
         "EXP-001 remains PLANNED with zero consumed authorizations and no subject runs; comparative correctness and replication remain absent."
       ],
-      "next_task": "Admit only a demonstrated Tasks-side integration deficiency; #36 completed the package scope while #22 remains failed history. Do not recreate that package work.",
+      "next_task": "Admit only a demonstrated integration deficiency; #36 completed the package scope while #22 remains failed history. Do not recreate that package work.",
       "evidence": [
         "https://github.com/opsle/context-firewall/blob/0239003eb66af4902f6d53ceb04d32976bce21f7/README.md",
         "https://github.com/opsle/context-firewall/blob/6dd6e5fdf21f28dc5ebfa07954aaa9bed2dbcc32/README.md",
@@ -496,7 +493,7 @@
       "completion_evidence": [],
       "completion_status": "INCOMPLETE",
       "program_state": "waiting",
-      "last_verified_at": "2026-09-11T04:18:44Z",
+      "last_verified_at": "2026-11-17T18:18:05Z",
       "repository_disposition": "ACTIVE",
       "consolidated_into": null,
       "workload_eligible": true,
@@ -505,9 +502,9 @@
     },
     {
       "name": "decision-evidence-protocol",
-      "github_url": "https://github.com/opsle/decision-evidence-protocol",
+      "github_url": "https://github.com/sneakocom/decision-evidence-protocol",
       "default_branch": "main",
-      "last_verified_head_sha": "b17ae3b41cea7cb0b9e0befe43e885b5aa0e4a09",
+      "last_verified_head_sha": "6a4dd402387bde2d00e4ecbfd37b5923d8dcbd5a",
       "project_type": "concept",
       "purpose": "Represent bounded vendor-neutral decision facts with provenance and explicit raw-output escalation.",
       "lifecycle_stage": "VERIFIED",
@@ -531,7 +528,7 @@
       "blockers": [
         "EXP-001 is prepared but unconsumed; measured subject decision adequacy, broader workload coverage and independent replication remain absent."
       ],
-      "next_task": "Use Opsle Tasks to admit work only for a demonstrated deficiency in this repository.",
+      "next_task": "Admit work only for a demonstrated deficiency in this repository, under the research program's work-item admission rule.",
       "evidence": [
         "https://github.com/opsle/decision-evidence-protocol/blob/b17ae3b41cea7cb0b9e0befe43e885b5aa0e4a09/README.md",
         "https://github.com/opsle/decision-evidence-protocol/blob/b17ae3b41cea7cb0b9e0befe43e885b5aa0e4a09/src/context-firewall-value.js",
@@ -553,7 +550,7 @@
       "completion_evidence": [],
       "completion_status": "INCOMPLETE",
       "program_state": "waiting",
-      "last_verified_at": "2026-09-11T04:18:44Z",
+      "last_verified_at": "2026-11-17T18:18:05Z",
       "repository_disposition": "ACTIVE",
       "consolidated_into": null,
       "workload_eligible": true,
@@ -562,7 +559,7 @@
     },
     {
       "name": "agent-state-ledger",
-      "github_url": "https://github.com/opsle/agent-state-ledger",
+      "github_url": "https://github.com/sneakocom/agent-state-ledger",
       "default_branch": "main",
       "last_verified_head_sha": "509a2a55066fd30ca67ceca14eaf640772b84c31",
       "project_type": "concept",
@@ -607,7 +604,7 @@
     },
     {
       "name": "agent-scheduler-runtime",
-      "github_url": "https://github.com/opsle/agent-scheduler-runtime",
+      "github_url": "https://github.com/sneakocom/agent-scheduler-runtime",
       "default_branch": "main",
       "last_verified_head_sha": "261adff7792b12257e57b408a84699479d2b992d",
       "project_type": "concept",
@@ -652,7 +649,7 @@
     },
     {
       "name": "verifiable-agent-handoff",
-      "github_url": "https://github.com/opsle/verifiable-agent-handoff",
+      "github_url": "https://github.com/sneakocom/verifiable-agent-handoff",
       "default_branch": "main",
       "last_verified_head_sha": "b832c770d9965b6060fc21af4f8826812c80b0a9",
       "project_type": "concept",
@@ -699,7 +696,7 @@
     },
     {
       "name": "agent-routing-policy",
-      "github_url": "https://github.com/opsle/agent-routing-policy",
+      "github_url": "https://github.com/sneakocom/agent-routing-policy",
       "default_branch": "main",
       "last_verified_head_sha": "179fb15add41f338813bc04cc77c308563942a93",
       "project_type": "concept",
@@ -743,7 +740,7 @@
     },
     {
       "name": "agent-resource-claims",
-      "github_url": "https://github.com/opsle/agent-resource-claims",
+      "github_url": "https://github.com/sneakocom/agent-resource-claims",
       "default_branch": "main",
       "last_verified_head_sha": "f80f82e79ed07915feaea6a3b873d9af4aed144c",
       "project_type": "concept",
@@ -788,7 +785,7 @@
     },
     {
       "name": "agent-discovery-control",
-      "github_url": "https://github.com/opsle/agent-discovery-control",
+      "github_url": "https://github.com/sneakocom/agent-discovery-control",
       "default_branch": "main",
       "last_verified_head_sha": "09c11f8a8ffd57521110a7696ab4f6a5181c0218",
       "project_type": "concept",
@@ -833,7 +830,7 @@
     },
     {
       "name": "agent-execution-authorization",
-      "github_url": "https://github.com/opsle/agent-execution-authorization",
+      "github_url": "https://github.com/sneakocom/agent-execution-authorization",
       "default_branch": "main",
       "last_verified_head_sha": "6babce3929e0284cdbb530ed5ebfb29a36388bf7",
       "project_type": "concept",
@@ -878,7 +875,7 @@
     },
     {
       "name": "controlled-agent-acceptance",
-      "github_url": "https://github.com/opsle/controlled-agent-acceptance",
+      "github_url": "https://github.com/sneakocom/controlled-agent-acceptance",
       "default_branch": "main",
       "last_verified_head_sha": "258325416c852be719c545a622e8a9d175447512",
       "project_type": "concept",
@@ -923,7 +920,7 @@
     },
     {
       "name": "agent-recovery-policy",
-      "github_url": "https://github.com/opsle/agent-recovery-policy",
+      "github_url": "https://github.com/sneakocom/agent-recovery-policy",
       "default_branch": "main",
       "last_verified_head_sha": "a529954c784a7763fec452c23e143e96ccb97a72",
       "project_type": "concept",
@@ -968,7 +965,7 @@
     },
     {
       "name": "ephemeral-agent-workers",
-      "github_url": "https://github.com/opsle/ephemeral-agent-workers",
+      "github_url": "https://github.com/sneakocom/ephemeral-agent-workers",
       "default_branch": "main",
       "last_verified_head_sha": "e758697528e71290bec55391a6b4e6c5bae83422",
       "project_type": "concept",
@@ -1013,9 +1010,9 @@
     },
     {
       "name": "gearbox",
-      "github_url": "https://github.com/opsle/gearbox",
+      "github_url": "https://github.com/sneakocom/gearbox",
       "default_branch": "main",
-      "last_verified_head_sha": "a2fcbffd76f448fb799d33a242f69eb16d8ebbf4",
+      "last_verified_head_sha": "4cab15c3180d0a95d70a0dab0ecb64aaccdbbf61",
       "project_type": "concept",
       "purpose": "Let one powerful primary developer execute deterministic operations or one bounded cognitive assignment through an authority-, context-, result-, and budget-constrained transmission boundary.",
       "lifecycle_stage": "PROTOTYPED",
@@ -1033,14 +1030,12 @@
         "Tasks capability gateway integration is operational evidence, not comparative savings or research completion."
       ],
       "dependencies": [],
-      "dependents": [
-        "tasks"
-      ],
+      "dependents": [],
       "active_experiment_ids": [],
       "blockers": [
         "General helper transport, independent isolation evidence and comparative benchmark remain separate research work."
       ],
-      "next_task": "Use Opsle Tasks to admit work only for a demonstrated deficiency in this repository.",
+      "next_task": "Admit work only for a demonstrated deficiency in this repository, under the research program's work-item admission rule.",
       "evidence": [
         "https://github.com/opsle/gearbox/blob/a2fcbffd76f448fb799d33a242f69eb16d8ebbf4/README.md",
         "https://github.com/opsle/gearbox/blob/12112c3a04d72b768f3252a6d0f6ea455816c9a1/README.md",
@@ -1063,7 +1058,7 @@
       "completion_evidence": [],
       "completion_status": "INCOMPLETE",
       "program_state": "waiting",
-      "last_verified_at": "2026-09-11T04:18:44Z",
+      "last_verified_at": "2026-11-17T18:18:05Z",
       "repository_disposition": "ACTIVE",
       "consolidated_into": null,
       "workload_eligible": true,
@@ -1072,9 +1067,9 @@
     },
     {
       "name": "affected-verification",
-      "github_url": "https://github.com/opsle/affected-verification",
+      "github_url": "https://github.com/sneakocom/affected-verification",
       "default_branch": "main",
-      "last_verified_head_sha": "a9c7000e088b5db085e2449e04a83948b66916f1",
+      "last_verified_head_sha": "0789231384b298747f560bda5c17675960f40f1d",
       "project_type": "concept",
       "purpose": "Select the smallest verification workload whose sufficiency can be defended from available change-impact, dependency, coverage, policy, and risk evidence.",
       "lifecycle_stage": "VERIFIED",
@@ -1092,16 +1087,14 @@
         "Package compatibility receipt records 13 passing development checks against Tasks e1207c5264c59e14efe9838bba3a33ba504665d2, with final pipeline checks pending in that receipt. It does not establish installed-package compatibility with current production or authorize trusted execution."
       ],
       "dependencies": [],
-      "dependents": [
-        "tasks"
-      ],
+      "dependents": [],
       "active_experiment_ids": [
         "AV-EXP-001",
         "AV-EXP-002",
         "AV-EXP-003"
       ],
       "blockers": [
-        "Research remains OBSERVE/SHADOW; AV-EXP-002 failure is permanent. Tasks bounded manifest-backed selection requires complete impact, catalog and check-boundary evidence; incomplete evidence broadens or stops. No general TRUSTED_BOUNDED promotion."
+        "Research remains OBSERVE/SHADOW; AV-EXP-002 failure is permanent. Bounded manifest-backed selection requires complete impact, catalog and check-boundary evidence; incomplete evidence broadens or stops. No general TRUSTED_BOUNDED promotion."
       ],
       "next_task": "Admit a demonstrated verification deficiency only; #23 package implementation is complete. Preserve AV-EXP-002 and require independent correctness evidence before expanding beyond bounded OBSERVE/SHADOW.",
       "evidence": [
@@ -1127,7 +1120,7 @@
       "completion_evidence": [],
       "completion_status": "INCOMPLETE",
       "program_state": "waiting",
-      "last_verified_at": "2026-09-11T04:18:44Z",
+      "last_verified_at": "2026-11-17T18:18:05Z",
       "repository_disposition": "ACTIVE",
       "consolidated_into": null,
       "workload_eligible": true,
@@ -1136,13 +1129,13 @@
     },
     {
       "name": "research",
-      "github_url": "https://github.com/opsle/research",
+      "github_url": "https://github.com/sneakocom/research",
       "default_branch": "main",
-      "last_verified_head_sha": "cd1ecf2cf28bf057f2ed683ea647d75fd6239e5f",
+      "last_verified_head_sha": "0d468199626829339216b840a58cc2b7efa2c2af",
       "project_type": "program infrastructure",
       "purpose": "Own public research methodology, portfolio reconciliation, experiment records, and the authoritative program ledger.",
       "lifecycle_stage": "PROTOTYPED",
-      "implementation_status": "Authoritative current/historical research ledger, concept mappings, experiment records and deterministic generated views; Tasks owns workload management.",
+      "implementation_status": "Authoritative current/historical research ledger, concept mappings, experiment records and deterministic generated views; The research program owns workload management (epoch 2).",
       "implementation_requirement": "Program infrastructure requires a validated registry, generated dashboard, experiment ledger, operating rules, and CI.",
       "specification_status": "canonical lifecycle, theory classifications and dispositions, Gearbox and Context Firewall definitions, Gearbox-versus-Durable boundary, Visible Value receipt and measurement classes, operator/model channels, observational corpus, shadow/replay attachment, NOW/NEXT/THEN/LATER/PARKED lanes, work-item admission, registry, experiment, and deterministic generated-view controls are specified",
       "test_status": "Historical verification remains pinned in historical_evidence; current default-branch documentation and source inspected. No new test execution is claimed by this reconciliation.",
@@ -1167,7 +1160,7 @@
       "blockers": [
         "Research completion requires controlled evidence and replication; integration completion is insufficient."
       ],
-      "next_task": "Select only authorized, evidence-backed work from Opsle Tasks. Notebook implementation and production integration are complete through PR #83; the pending #52 scope is superseded by that recovery and is not a retry candidate. Existing lane membership is unchanged; see reconciliation evidence in program/registry.json.",
+      "next_task": "Maintain the epoch-2 ledger: keep registry HEADs, membership, and the generated views in sync with the live repositories, and admit only authorized, evidence-backed work under the program's work-item admission rule.",
       "evidence": [
         "https://github.com/opsle/research/blob/cd1ecf2cf28bf057f2ed683ea647d75fd6239e5f/README.md",
         "https://github.com/opsle/research/blob/840c79c04199762acdd59e89e807ca9086f3e45e/README.md",
@@ -1195,7 +1188,7 @@
       "completion_evidence": [],
       "completion_status": "INCOMPLETE",
       "program_state": "active",
-      "last_verified_at": "2026-09-11T04:18:44Z",
+      "last_verified_at": "2026-11-17T18:18:05Z",
       "repository_disposition": "ACTIVE",
       "consolidated_into": null,
       "workload_eligible": true,
@@ -1204,9 +1197,9 @@
     },
     {
       "name": "site",
-      "github_url": "https://github.com/opsle/site",
+      "github_url": "https://github.com/sneakocom/site",
       "default_branch": "main",
-      "last_verified_head_sha": "29c94e6440ec91f5e09aded959fe7144187af6d7",
+      "last_verified_head_sha": "36cbca302c2106f41eadc00a0fe313278786cfcd",
       "project_type": "program infrastructure",
       "purpose": "Provide source for the future public research, benchmark, failure, documentation, and product-gateway site.",
       "lifecycle_stage": "PROTOTYPED",
@@ -1242,7 +1235,7 @@
       "completion_evidence": [],
       "completion_status": "INCOMPLETE",
       "program_state": "waiting",
-      "last_verified_at": "2026-09-11T04:18:44Z",
+      "last_verified_at": "2026-11-17T18:18:05Z",
       "repository_disposition": "ACTIVE",
       "consolidated_into": null,
       "workload_eligible": true,
@@ -1251,11 +1244,11 @@
     },
     {
       "name": ".github",
-      "github_url": "https://github.com/opsle/.github",
+      "github_url": "https://github.com/sneakocom/.github",
       "default_branch": "main",
       "last_verified_head_sha": "01c38e726db7c3e45059d25fccce55e071e35938",
       "project_type": "program infrastructure",
-      "purpose": "Publish the Opsle organization profile and entry links to the research program.",
+      "purpose": "Deleted with the opsle GitHub organization in October 2026. Published the Opsle organization profile and entry links to the research program.",
       "lifecycle_stage": "THEORY",
       "implementation_status": "documentation-only organization profile",
       "implementation_requirement": "Program infrastructure may remain documentation-only but must be mechanically checked against the authoritative registry before completion.",
@@ -1273,10 +1266,8 @@
       "dependencies": [],
       "dependents": [],
       "active_experiment_ids": [],
-      "blockers": [
-        "No mechanical registry consistency check exists in this repository."
-      ],
-      "next_task": "None in the workload queue; retain organization housekeeping in PARKED with the Tasks project retired.",
+      "blockers": [],
+      "next_task": "None; historical source is retired from workload selection.",
       "evidence": [
         "https://github.com/opsle/.github/blob/01c38e726db7c3e45059d25fccce55e071e35938/profile/README.md"
       ],
@@ -1286,10 +1277,10 @@
         "Document ownership and update workflow."
       ],
       "completion_evidence": [],
-      "completion_status": "INCOMPLETE",
-      "program_state": "waiting",
+      "completion_status": "SUPERSEDED",
+      "program_state": "historical",
       "last_verified_at": "2026-09-11T04:18:44Z",
-      "repository_disposition": "ACTIVE",
+      "repository_disposition": "RETIRED",
       "consolidated_into": null,
       "workload_eligible": false,
       "historical_evidence": "program/history/pre-consolidation/registry.json",
@@ -1297,11 +1288,11 @@
     },
     {
       "name": "tasks",
-      "github_url": "https://github.com/opsle/tasks",
+      "github_url": "https://github.com/sneakocom/tasks",
       "default_branch": "main",
       "last_verified_head_sha": "fc89649edcf80c7cb9399c025d481e79c8ce4eaa",
       "project_type": "program infrastructure",
-      "purpose": "Current workload lifecycle and task-management authority: combined control plane, explicit local/optional SSH execution, and independent capability interfaces.",
+      "purpose": "Retired 2026-10-31 (repository deleted; tasks.opsle.com returns 410 Gone). Epoch-1 workload lifecycle and task-management authority: combined control plane, explicit local/optional SSH execution, and independent capability interfaces.",
       "lifecycle_stage": "PROTOTYPED",
       "implementation_status": "Notebook implementation and production integration COMPLETED via recovery 482e392086a9e71214699b86491d14b55c8f9aba / PR #83, deployed fc89649edcf80c7cb9399c025d481e79c8ce4eaa. Work Types, scheduled history, external release broker and same-attempt question continuation are implemented; lifecycle remains PROTOTYPED / INCOMPLETE.",
       "implementation_requirement": "Executable implementation and meaningful boundary tests.",
@@ -1315,18 +1306,11 @@
       "known_limitations": [
         "Integration completion does not establish causal savings, comparative correctness or research completion."
       ],
-      "dependencies": [
-        "gearbox",
-        "context-firewall",
-        "affected-verification",
-        "visible-value"
-      ],
+      "dependencies": [],
       "dependents": [],
       "active_experiment_ids": [],
-      "blockers": [
-        "Controlled comparative evidence and independent replication remain absent."
-      ],
-      "next_task": "Select authorized defects from current workload evidence. Notebook recovery completes the implementation and integration; #51/#60 stay failed provenance and #52 is superseded in program scope. No retry or replacement is required.",
+      "blockers": [],
+      "next_task": "None; historical source is retired from workload selection.",
       "evidence": [
         "https://github.com/opsle/tasks/blob/fc89649edcf80c7cb9399c025d481e79c8ce4eaa/README.md",
         "https://github.com/opsle/tasks/blob/e1207c5264c59e14efe9838bba3a33ba504665d2/README.md",
@@ -1344,13 +1328,13 @@
         "Satisfy applicable canonical lifecycle and Visible Value gates with revision-linked evidence; integration completion alone is insufficient."
       ],
       "completion_evidence": [],
-      "completion_status": "INCOMPLETE",
-      "program_state": "active",
+      "completion_status": "SUPERSEDED",
+      "program_state": "historical",
       "last_verified_at": "2026-09-11T04:18:44Z",
-      "repository_disposition": "ACTIVE",
+      "repository_disposition": "RETIRED",
       "consolidated_into": null,
-      "workload_eligible": true,
-      "historical_evidence": null,
+      "workload_eligible": false,
+      "historical_evidence": "program/history/epoch-1/registry.json",
       "historical_experiment_ids": [],
       "integration_completion": {
         "notebook": {
@@ -1424,9 +1408,9 @@
     },
     {
       "name": "visible-value",
-      "github_url": "https://github.com/opsle/visible-value",
+      "github_url": "https://github.com/sneakocom/visible-value",
       "default_branch": "main",
-      "last_verified_head_sha": "f011395cae86a7a736b424d658bbe3afe65ba870",
+      "last_verified_head_sha": "e5685ac1a307affee8687f223fab51e3466f0e90",
       "project_type": "concept",
       "purpose": "Independent receipt validation and operator summaries preserving evidence classes and missing measurements.",
       "lifecycle_stage": "PROTOTYPED",
@@ -1444,9 +1428,7 @@
         "Validates producer-supplied claims; does not authenticate external artifacts. Only compatible EXACT/OBSERVED numeric SUM values aggregate; missing values remain absent."
       ],
       "dependencies": [],
-      "dependents": [
-        "tasks"
-      ],
+      "dependents": [],
       "active_experiment_ids": [],
       "blockers": [
         "Controlled comparative evidence and independent replication remain absent."
@@ -1464,7 +1446,50 @@
       "completion_evidence": [],
       "completion_status": "INCOMPLETE",
       "program_state": "waiting",
-      "last_verified_at": "2026-09-11T04:18:44Z",
+      "last_verified_at": "2026-11-17T18:18:05Z",
+      "repository_disposition": "ACTIVE",
+      "consolidated_into": null,
+      "workload_eligible": true,
+      "historical_evidence": null,
+      "historical_experiment_ids": []
+    },
+    {
+      "name": "context-budget-preflight",
+      "github_url": "https://github.com/sneakocom/context-budget-preflight",
+      "default_branch": "main",
+      "last_verified_head_sha": "c5f423fbfce3e2c69890ee71c3c6c857a19677b2",
+      "project_type": "program infrastructure",
+      "purpose": "Deterministic context-budget preflight: plans an agent's context pack from a manifest before any model call, extracts only the matching evidence lines, defers over-budget prose, and emits a savings receipt.",
+      "lifecycle_stage": "PROTOTYPED",
+      "implementation_status": "v0.1.0 published 2026-11-13; dependency-free Node CLI. CI (GitHub-hosted) added 2026-11-16; listed on opsle.com /repositories under Tools from the research.",
+      "implementation_requirement": "Executable implementation and meaningful boundary tests.",
+      "specification_status": "README documents the manifest format, planning rules, and the chars/4 token heuristic with its limitations.",
+      "test_status": "npm test 3/3 pass from a fresh clone at publication (2026-11-13); CI green on main. HEAD inspected 2026-11-17; no new verify run is claimed by this epoch.",
+      "benchmark_status": "Measured on this program's own observe work: 1,487 naive tokens planned to 49 in the published example; a 2026-11-16 autopilot run planned 402 against 44,909 naive (chars/4 heuristic).",
+      "measured_experiment_status": "Dogfood observations only; no controlled experiment.",
+      "reproducibility_status": "Fresh-clone npm test and npm run example reproduce the published receipt.",
+      "documentation_status": "README carries the measured baseline, usage, and honest limitations.",
+      "site_publication_status": "Listed on opsle.com /repositories (Tools from the research) since 2026-11-16.",
+      "known_limitations": [
+        "Token counts are a chars/4 heuristic, not a tokenizer.",
+        "Savings are measured on deterministic fetch-and-extract work; prose-heavy work defers rather than saves."
+      ],
+      "dependencies": [],
+      "dependents": [],
+      "active_experiment_ids": [],
+      "blockers": [],
+      "next_task": "Accumulate real observe-cycle usage receipts; no site claim beyond the measured examples.",
+      "evidence": [
+        "https://github.com/sneakocom/context-budget-preflight",
+        "program/CURRENT_STATE.md"
+      ],
+      "completion_criteria": [
+        "Satisfy applicable canonical lifecycle and Visible Value gates with revision-linked evidence; integration completion alone is insufficient."
+      ],
+      "completion_evidence": [],
+      "completion_status": "INCOMPLETE",
+      "program_state": "waiting",
+      "last_verified_at": "2026-11-17T18:18:05Z",
       "repository_disposition": "ACTIVE",
       "consolidated_into": null,
       "workload_eligible": true,
@@ -1477,13 +1502,12 @@
       "agent-trajectory-profiler",
       "semantic-edit-protocol",
       "context-firewall",
+      "context-budget-preflight",
       "decision-evidence-protocol",
       "gearbox",
       "affected-verification",
       "research",
       "site",
-      ".github",
-      "tasks",
       "visible-value"
     ],
     "historical": [
@@ -1498,15 +1522,17 @@
       "ephemeral-agent-workers",
       "event-driven-agent-wakeup",
       "verifiable-agent-handoff",
-      "durable-supervisor"
+      "durable-supervisor",
+      ".github",
+      "tasks"
     ]
   },
   "repository_counts": {
-    "current": 11,
-    "historical": 12,
+    "current": 10,
+    "historical": 14,
     "workload_eligible": 10
   },
-  "inventory_evidence": "program/evidence/post-consolidation/inventory.json",
+  "inventory_evidence": "program/evidence/post-reorganization/inventory.json",
   "historical_state": "program/history/pre-consolidation/registry.json",
   "completed_work": [
     {
@@ -1564,7 +1590,7 @@
     }
   },
   "relationship_scope": "Current repository dependencies record integrated public-interface consumers; historical theoretical dependency edges remain in historical_state. Capability installation and project grants are separate operator state.",
-  "inventory_evidence_sha256": "sha256:ad2b532514ebf1dd84e9221da77b6aa7a4531ab5abbc2e5d866ae7b169b36bcf",
+  "inventory_evidence_sha256": "sha256:8988b4fdd69a2cfec4fb440c51bbd06d573b1d8d1db88d24dd2051368b2968c6",
   "consolidation_evidence": {
     "path": "program/evidence/post-consolidation/consolidation.json",
     "sha256": "sha256:01fb77a6227e7b6f1aee8ee56ff15672a7d0657611371d0f0f63597268f945ce"
@@ -1886,5 +1912,13 @@
         "limits": "Provider-free qualification added no subject run or experiment result. Token, cost and causal savings were not measured; zero safe totals is a reporting count, not zero cost or benefit."
       }
     }
-  }
+  },
+  "epoch": 2,
+  "epoch_decision": {
+    "date": "2026-11-17",
+    "decision": "Start a new epoch",
+    "decided_by": "Michael Davis",
+    "previous_epoch_state": "program/history/epoch-1/registry.json"
+  },
+  "previous_epoch_state": "program/history/epoch-1/registry.json"
 }
