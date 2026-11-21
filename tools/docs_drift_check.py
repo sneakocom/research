@@ -28,15 +28,35 @@ Exit code: 0 when no FAIL findings, 1 otherwise. REVIEW findings are
 printed but do not fail the run; a human (or the autopilot) decides
 whether the present-tense mention is legitimate history.
 
+Receipt cache (autopilot O21, 2026-11-20): a full scan of a large tree
+is this guard's dominant cost, and the autopilot re-scans the same trees
+every run. When a repo is a clean git checkout, the scan result is a
+pure function of (HEAD SHA, this script's bytes, the --allow list), so
+a completed scan stores a receipt under the cache dir keyed by exactly
+that triple. A later run whose triple matches reuses the receipt
+(findings and counts, printed with a "(cached ...)" marker) instead of
+rescanning. Any new commit, any edit to this script, any change to the
+exemption list, or a dirty working tree misses the cache and triggers a
+full scan, so the cache can never mask a real change. Repos that are
+not clean git checkouts are always scanned in full and never cached.
+--no-cache forces full scans and writes no receipts. The cache dir
+(default ~/.cache/docs-drift-guard) must live outside the scanned
+repos; receipts quote finding lines verbatim and would themselves be
+scannable text.
+
 Stdlib only. No network. Deterministic output (sorted findings).
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import re
+import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 TEXT_SUFFIXES = {".md", ".json", ".yml", ".yaml", ".toml", ".txt"}
@@ -123,6 +143,106 @@ def check_repo(root: Path, allow: list[str]) -> tuple[list[str], list[str]]:
     return fails, reviews
 
 
+def script_hash() -> str:
+    """Content hash of this script: the guard's version for cache keying."""
+    return hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+
+
+def git(root: Path, *argv: str) -> str | None:
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(root), *argv],
+            capture_output=True, text=True, timeout=30,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    return out.stdout.strip() if out.returncode == 0 else None
+
+
+def repo_head(root: Path) -> str | None:
+    return git(root, "rev-parse", "HEAD")
+
+
+def repo_clean(root: Path) -> bool:
+    status = git(root, "status", "--porcelain")
+    return status == ""
+
+
+def default_cache_dir() -> Path:
+    xdg = os.environ.get("XDG_CACHE_HOME")
+    base = Path(xdg) if xdg else Path.home() / ".cache"
+    return base / "docs-drift-guard"
+
+
+def receipt_path(cache_dir: Path, root: Path) -> Path:
+    key = hashlib.sha256(str(root.resolve()).encode()).hexdigest()[:16]
+    return cache_dir / f"{root.resolve().name}-{key}.receipt.json"
+
+
+def load_receipt(
+    cache_dir: Path, root: Path, head: str, shash: str, allow: list[str]
+) -> dict | None:
+    try:
+        data = json.loads(receipt_path(cache_dir, root).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    if (
+        data.get("head") == head
+        and data.get("script_sha256") == shash
+        and data.get("allow") == sorted(allow)
+        and isinstance(data.get("fails"), list)
+        and isinstance(data.get("reviews"), list)
+    ):
+        return data
+    return None
+
+
+def store_receipt(
+    cache_dir: Path,
+    root: Path,
+    head: str,
+    shash: str,
+    allow: list[str],
+    fails: list[str],
+    reviews: list[str],
+) -> None:
+    receipt = {
+        "repo": root.resolve().name,
+        "root": str(root.resolve()),
+        "head": head,
+        "script_sha256": shash,
+        "allow": sorted(allow),
+        "fail_count": len(fails),
+        "review_count": len(reviews),
+        "fails": fails,
+        "reviews": reviews,
+        "created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }
+    try:
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        receipt_path(cache_dir, root).write_text(
+            json.dumps(receipt, indent=1, sort_keys=True) + "\n", encoding="utf-8"
+        )
+    except OSError:
+        pass  # a cache that cannot be written must never fail the guard
+
+
+def scan_repo(
+    root: Path, allow: list[str], cache_dir: Path | None, shash: str
+) -> tuple[list[str], list[str], str | None]:
+    """Return (fails, reviews, receipt timestamp) — timestamp set on a cache hit."""
+    root = root.resolve()
+    head = repo_head(root) if cache_dir is not None else None
+    if head is not None and repo_clean(root):
+        hit = load_receipt(cache_dir, root, head, shash, allow)
+        if hit is not None:
+            return hit["fails"], hit["reviews"], hit.get("created_utc")
+    fails, reviews = check_repo(root, allow)
+    if head is not None and repo_head(root) == head and repo_clean(root):
+        store_receipt(cache_dir, root, head, shash, allow, fails, reviews)
+    return fails, reviews, None
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("repos", nargs="+", help="repository directories to check")
@@ -132,13 +252,28 @@ def main() -> int:
         default=[],
         help="path substring exempt from the org-ref check (repeatable)",
     )
+    parser.add_argument(
+        "--cache-dir",
+        type=Path,
+        default=default_cache_dir(),
+        help="receipt cache directory (default: %(default)s); "
+        "must live outside the scanned repos",
+    )
+    parser.add_argument(
+        "--no-cache",
+        action="store_true",
+        help="force full scans and write no receipts",
+    )
     args = parser.parse_args()
 
+    cache_dir = None if args.no_cache else args.cache_dir
+    shash = script_hash()
     all_fails: list[str] = []
     all_reviews: list[str] = []
     for repo in args.repos:
-        fails, reviews = check_repo(Path(repo), args.allow)
-        print(f"== {repo}: {len(fails)} fail, {len(reviews)} review ==")
+        fails, reviews, cached_at = scan_repo(Path(repo), args.allow, cache_dir, shash)
+        marker = f" (cached, receipt {cached_at})" if cached_at else ""
+        print(f"== {repo}: {len(fails)} fail, {len(reviews)} review =={marker}")
         all_fails.extend(fails)
         all_reviews.extend(reviews)
     for line in sorted(all_fails):
